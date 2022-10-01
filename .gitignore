@@ -1,5 +1,6 @@
 *.pyc
 .venv/
 __pycache__
-.evn
+.env
 data/
+results/

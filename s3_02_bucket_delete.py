@@ -24,3 +24,7 @@ s3 = boto3.client(
 new_bucket = s3.delete_bucket(
     Bucket='javad-second-bucket'
 )
+
+# write results to a file
+from results import results_to_json
+results_to_json(new_bucket, __file__)

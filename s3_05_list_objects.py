@@ -1,4 +1,4 @@
-"""A module that shows how to list all S3 buckets
+"""A module that shows how to upload a file to a bucket.
 """
 
 # import packages
@@ -20,13 +20,15 @@ s3 = boto3.client(
     )
 
 
-# list all buckets in the AWS Cloud in give region
-buckets = s3.list_buckets()
-for bucket in buckets['Buckets']:
-    print(bucket)
+# get list of files in a bucket named: javad-first-bucket
+objects_list = s3.list_objects(
+    Bucket='javad-first-bucket',
+    MaxKeys=1,
+    Prefix='profile',
+)
+print(objects_list)
 
 
 # write results to a file
-
 from results import results_to_json
-results_to_json(buckets, __file__)
+results_to_json(objects_list, __file__)

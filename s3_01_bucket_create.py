@@ -37,3 +37,7 @@ new_bucket = s3.create_bucket(
     )
 
 print(new_bucket)
+
+# write results to a file
+from results import results_to_json
+results_to_json(new_bucket, __file__)
