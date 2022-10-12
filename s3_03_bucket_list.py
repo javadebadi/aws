@@ -27,6 +27,5 @@ for bucket in buckets['Buckets']:
 
 
 # write results to a file
-
 from results import results_to_json
 results_to_json(buckets, __file__)

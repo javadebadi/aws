@@ -28,6 +28,9 @@ s3.upload_file(
     Key='data.csv',
 )
 
+# one way to read private object from S3 buckte to pandas dataframe
+# to use get_object method of s3 client as follows
+
 # try to read object with pandas
 obj = s3.get_object(
     Bucket='javad-first-bucket',
