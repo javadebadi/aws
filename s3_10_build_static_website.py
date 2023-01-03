@@ -11,11 +11,18 @@ from string import Template
 
 import boto3
 from botocore.errorfactory import ClientError
+
 from config import (
     REGION_NAME,
     AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY,
 )
+
+
+BUCKET_NAME = "scientists"
+STATIC_WEBSITE_ROOT_DIR = os.path.join(".", "data", "static_website")
+WEBSITE_INDEX_PAGE = "index.html"
+ERROR_PAGE = "404.html"
 
 
 # initialize s3 client
@@ -26,10 +33,8 @@ s3 = boto3.client(
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
 )
 
-BUCKET_NAME = "scientists"
-STATIC_WEBSITE_ROOT_DIR = os.path.join(".", "data", "static_website")
-WEBSITE_INDEX_PAGE = "index.html"
 
+# ========== Create Bucket ==========
 # create a S3 bucket and if it already exists ignore it
 try:
     s3.create_bucket(
@@ -48,7 +53,6 @@ website_configuration = {
     'ErrorDocument': {'Key': '404.html'},
     'IndexDocument': {'Suffix': WEBSITE_INDEX_PAGE},
 }
-
 
 print(" ===== Put Website Configuration ===== ")
 s3.put_bucket_website(
@@ -85,9 +89,7 @@ s3.put_bucket_policy(
     )
 
 
-
 # ========== Upload Content ==========
-# upload static website content to bucket
 # find paths of files to upload
 paths = {}
 for path, subdirs, files in os.walk(STATIC_WEBSITE_ROOT_DIR):
@@ -101,13 +103,13 @@ for path, subdirs, files in os.walk(STATIC_WEBSITE_ROOT_DIR):
 
 print("PATHS = ", paths)
 
+# upload static website content to bucket
 for key, path in paths.items():
     s3.upload_file(
         Bucket=BUCKET_NAME,
         Key=key,
         Filename=path,
         ExtraArgs={
-            # 'ACL':'public-read',
             "ContentType": "text/html",
             }
     )
