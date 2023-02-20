@@ -32,12 +32,12 @@ ses_client = boto3.client(
 )
 
 
-VERIFICATION_SUCCESS_URL = "https://professor-lake.com/success"
-VERIFICATION_FAILURE_URL = "https://professor-lake.com/failure"
+VERIFICATION_SUCCESS_URL = "http://professor-lake.com/success"
+VERIFICATION_FAILURE_URL = "http://professor-lake.com/failure"
 TEMPLATE_NAME = "CustomVerificationTemplate"  # template name to refer later
 
 
-# STEP 0: Delete custom verfication template
+# STEP 0: Delete custom verification template
 ses_client.delete_custom_verification_email_template(TemplateName=TEMPLATE_NAME)
 
 # STEP 1: Create a verification email template
